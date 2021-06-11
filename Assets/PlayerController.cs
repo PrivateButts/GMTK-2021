@@ -11,12 +11,11 @@ public class PlayerController : MonoBehaviour {
     private HingeJoint2D GrabJoint;
     private Rigidbody2D rb;
 
-
     private void Start () {
         GrabJoint = GetComponent<HingeJoint2D> ();
-        GrabJoint.enabled = false;
+        GrabJoint.enabled = true;
 
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D> ();
     }
 
     // Update is called once per frame
@@ -34,10 +33,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void FixedUpdate(){
-        if(!GrabJoint.enabled){
-            rb.AddForce(Vector2.right * Input.GetAxis("Horizontal") * SwingForce * Time.deltaTime);
-            rb.AddForce(Vector2.up * Input.GetAxis("Vertical") * SwingForce * Time.deltaTime);
+    void FixedUpdate () {
+        if (!GrabJoint.enabled) {
+            rb.AddForce (Vector2.right * Input.GetAxis ("Horizontal") * SwingForce * Time.deltaTime);
+            rb.AddForce (Vector2.up * Input.GetAxis ("Vertical") * SwingForce * Time.deltaTime);
         }
     }
 
