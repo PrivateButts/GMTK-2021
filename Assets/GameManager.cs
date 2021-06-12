@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     public GameObject PlayerPrefab;
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public int LastCheckpointScore = 0;
     public int StartingLives;
     public float RespawnDelay = 3;
+    public Text LivesDisplay, ScoreDisplay, DEDDisplay;
 
     private int CurrentLives;
     private int Score = 0;
@@ -21,16 +23,30 @@ public class GameManager : MonoBehaviour {
 
     void Start () {
         // GM Setup
-        GlobalHazard = GameObject.Find("Global Hazard");
+        GlobalHazard = GameObject.Find ("Global Hazard");
         CurrentLives = StartingLives;
-        SpawnPlayer();
+        SpawnPlayer ();
+
+        // UI Setup
+        LivesDisplay.text = CurrentLives.ToString ();
+        ScoreDisplay.text = Score.ToString ();
     }
 
-    void SpawnPlayer(){
+    void Update () {
+        if (Player1 != null && Player2 != null) {
+            int height = Mathf.RoundToInt (Mathf.Max (Player1.transform.position.y, Player2.transform.position.y));
+            if (height > Score) {
+                Score = height;
+                ScoreDisplay.text = Score.ToString ();
+            }
+        }
+    }
+
+    void SpawnPlayer () {
         // Extract exact spawn positions
-        Transform spawn1 = LastCheckpointPos.Find("1");
-        Transform spawn2 = LastCheckpointPos.Find("2");
-        
+        Transform spawn1 = LastCheckpointPos.Find ("1");
+        Transform spawn2 = LastCheckpointPos.Find ("2");
+
         // Player Prefab Setup
         Player1 = Instantiate (PlayerPrefab, spawn1.position, spawn1.rotation);
         Player2 = Instantiate (PlayerPrefab, spawn2.position, spawn2.rotation);
@@ -88,36 +104,38 @@ public class GameManager : MonoBehaviour {
         distJoint.connectedAnchor = Vector2.zero;
     }
 
-    void Checkpoint(Transform point){
+    void Checkpoint (Transform point) {
         LastCheckpointPos = point;
         LastCheckpointScore = Score;
     }
 
-    IEnumerator Respawn(){
-        Destroy(Player1, RespawnDelay/2);
-        Destroy(Player2, RespawnDelay/2);
-        Destroy(RopeHolder, RespawnDelay/2);
-        yield return new WaitForSeconds(RespawnDelay);
-        SpawnPlayer();
+    IEnumerator Respawn () {
+        Destroy (Player1, RespawnDelay / 2);
+        Destroy (Player2, RespawnDelay / 2);
+        Destroy (RopeHolder, RespawnDelay / 2);
+        yield return new WaitForSeconds (RespawnDelay);
+        SpawnPlayer ();
         GlobalHazard.transform.position = LastCheckpointPos.position + (Vector3.down * 14);
-        GlobalHazard.SendMessage("Start");
+        GlobalHazard.SendMessage ("Start");
         Score = LastCheckpointScore;
         TakeNoDamage = false;
     }
 
-    void Damage(){
-        if(!TakeNoDamage){
+    void Damage () {
+        if (!TakeNoDamage) {
             CurrentLives -= 1;
+            LivesDisplay.text = CurrentLives.ToString ();
             TakeNoDamage = true;
-            if (CurrentLives < 1){
-                GameOver();
-            }else{
-                StartCoroutine("Respawn");
+            if (CurrentLives < 1) {
+                GameOver ();
+            } else {
+                StartCoroutine ("Respawn");
             }
         }
     }
 
-    void GameOver(){
-        Debug.Log("Ded");
+    void GameOver () {
+        Debug.Log ("Ded");
+        DEDDisplay.gameObject.SetActive (true);
     }
 }
