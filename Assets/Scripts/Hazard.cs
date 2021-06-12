@@ -16,9 +16,9 @@ public class Hazard : MonoBehaviour
         
     }
     void OnTriggerEnter2D(Collider2D other){
-        Debug.Log("Triggered");
         if (other.CompareTag("Player")){
             Destroy(other.gameObject);
+            GameObject.Find("Game Manager").SendMessage("Damage");
         }
     }
 }
