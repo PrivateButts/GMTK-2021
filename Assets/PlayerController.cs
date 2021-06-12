@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
             GrabJoint.enabled = false;
         }
 
-        if (!GrabJoint.enabled) {
+        if (!GrabJoint.enabled && rb.velocity.sqrMagnitude > 1) {
             transform.right = OtherPlayer.transform.position - transform.position;
         }
     }

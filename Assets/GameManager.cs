@@ -1,21 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     public GameObject PlayerPrefab;
     public Transform Spawn1, Spawn2;
     public GameObject RopeSegment;
+    public CinemachineTargetGroup CameraTargets;
+    public float CameraWeight, CameraRadius;
+
     private float DistPerSegment = .2f;
 
     void Start () {
+        // Player Setup
         GameObject p1 = Instantiate (PlayerPrefab, Spawn1.position, Spawn1.rotation);
         GameObject p2 = Instantiate (PlayerPrefab, Spawn2.position, Spawn2.rotation);
         p1.GetComponent<PlayerController> ().PlayerID = "1";
         p2.GetComponent<PlayerController> ().PlayerID = "2";
         p1.GetComponent<PlayerController> ().OtherPlayer = p2;
         p2.GetComponent<PlayerController> ().OtherPlayer = p1;
+        CameraTargets.AddMember (p1.transform, CameraWeight, CameraRadius);
+        CameraTargets.AddMember (p2.transform, CameraWeight, CameraRadius);
 
+        // Invoke the rope
         int SegmentCount = Mathf.CeilToInt (Vector2.Distance (p1.transform.position, p2.transform.position) / DistPerSegment);
         CreateRope (p1, p2, SegmentCount);
         AddDistanceJoint (p1, p2, SegmentCount * DistPerSegment);
