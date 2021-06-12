@@ -7,6 +7,7 @@ public class GlobalHazard : MonoBehaviour {
     public float MovementSpeed = 1f;
 
     private void Start () {
+        StopAllCoroutines();
         StartCoroutine ("startMoving");
     }
 
@@ -20,8 +21,8 @@ public class GlobalHazard : MonoBehaviour {
 
     private void OnTriggerEnter2D (Collider2D other) {
         if (other.CompareTag ("Player")) {
-            Debug.Log ("Ded");
-            StopCoroutine ("startMoving");
+            Destroy(other.gameObject);
+            GameObject.Find("Game Manager").SendMessage("Damage");
         }
     }
 }
