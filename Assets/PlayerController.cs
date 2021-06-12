@@ -31,12 +31,16 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetButtonUp ("Grab" + PlayerID)) {
             GrabJoint.enabled = false;
         }
+
+        if (!GrabJoint.enabled) {
+            transform.right = OtherPlayer.transform.position - transform.position;
+        }
     }
 
     void FixedUpdate () {
         if (!GrabJoint.enabled) {
-            rb.AddForce (Vector2.right * Input.GetAxis ("Horizontal") * SwingForce * Time.deltaTime);
-            rb.AddForce (Vector2.up * Input.GetAxis ("Vertical") * SwingForce * Time.deltaTime);
+            rb.AddRelativeForce (Vector2.down * Input.GetAxis ("Horizontal") * SwingForce * Time.deltaTime);
+            // rb.AddForce (Vector2.up * Input.GetAxis ("Vertical") * SwingForce * Time.deltaTime);
         }
     }
 

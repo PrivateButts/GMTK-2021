@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
         GameObject p2 = Instantiate (PlayerPrefab, Spawn2.position, Spawn2.rotation);
         p1.GetComponent<PlayerController> ().PlayerID = "1";
         p2.GetComponent<PlayerController> ().PlayerID = "2";
+        p1.GetComponent<PlayerController> ().OtherPlayer = p2;
+        p2.GetComponent<PlayerController> ().OtherPlayer = p1;
 
         int SegmentCount = Mathf.CeilToInt (Vector2.Distance (p1.transform.position, p2.transform.position) / DistPerSegment);
         CreateRope (p1, p2, SegmentCount);
