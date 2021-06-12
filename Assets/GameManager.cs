@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour {
     public int StartingLives;
     public float RespawnDelay = 3;
     public Text LivesDisplay, ScoreDisplay, DEDDisplay;
+    public AudioSource BGNormal, BGPanic;
+    public float CrossFadeStart, CrossFadeEnd;
 
     private int CurrentLives;
     private int Score = 0;
@@ -34,11 +36,19 @@ public class GameManager : MonoBehaviour {
 
     void Update () {
         if (Player1 != null && Player2 != null) {
-            int height = Mathf.RoundToInt (Mathf.Max (Player1.transform.position.y, Player2.transform.position.y));
-            if (height > Score) {
-                Score = height;
+            int max_height = Mathf.RoundToInt (Mathf.Max (Player1.transform.position.y, Player2.transform.position.y));
+            int min_height = Mathf.RoundToInt (Mathf.Min (Player1.transform.position.y, Player2.transform.position.y));
+            if (max_height > Score) {
+                Score = max_height;
                 ScoreDisplay.text = Score.ToString ();
             }
+
+            float distance = min_height - GlobalHazard.transform.position.y - (GlobalHazard.transform.localScale.y / 2) - CrossFadeStart;
+            Debug.Log (distance);
+            float crossfade = Mathf.Clamp01 (distance / (CrossFadeEnd - CrossFadeStart));
+            Debug.Log (crossfade);
+            BGNormal.volume = crossfade;
+            BGPanic.volume = 1 - crossfade;
         }
     }
 

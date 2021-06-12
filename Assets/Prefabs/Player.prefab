@@ -128,7 +128,7 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
+  m_UseAutoMass: 1
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanGrab: 0
-  SwingForce: 5000
+  SwingForce: 500
   PlayerID: 1
   OtherPlayer: {fileID: 0}
 --- !u!233 &1769908010065393908
