@@ -44,6 +44,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 1769908010065393907, guid: d9d322bf691881c42ae76723006e4448, type: 3}
-  Spawn1: {fileID: 0}
-  Spawn2: {fileID: 0}
   RopeSegment: {fileID: 332577495926932831, guid: 99e2261baee42ff43ab7b905ac4e7276, type: 3}
+  CameraTargets: {fileID: 0}
+  CameraWeight: 1
+  CameraRadius: 4
+  LastCheckpointPos: {fileID: 0}
+  LastCheckpointScore: 0
+  StartingLives: 3
+  RespawnDelay: 3
+  LivesDisplay: {fileID: 0}
+  ScoreDisplay: {fileID: 0}
+  DEDDisplay: {fileID: 0}
+  BGNormal: {fileID: 0}
+  BGPanic: {fileID: 0}
+  CrossFadeStart: 2
+  CrossFadeEnd: 5
