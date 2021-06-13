@@ -131,8 +131,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 0.8449999
+  m_UseAutoMass: 0
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -154,7 +154,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.017960966, y: 0.17169118}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -165,7 +165,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.65, y: 1.3}
+  m_Size: {x: 0.4486035, y: 1.0037122}
   m_EdgeRadius: 0
 --- !u!114 &1769908010065393911
 MonoBehaviour:
@@ -181,7 +181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanGrab: 0
   OverrideGrab: 0
-  SwingForce: 500
+  SwingForce: 300
+  MaxAngularVelo: 200
   PlayerID: 1
   OtherPlayer: {fileID: 0}
 --- !u!233 &1769908010065393908
@@ -198,8 +199,8 @@ HingeJoint2D:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0.25, y: 0.425}
-  m_ConnectedAnchor: {x: -1.347, y: 6.545}
+  m_Anchor: {x: 0.31102812, y: 0.59791327}
+  m_ConnectedAnchor: {x: -1.2859719, y: 6.717913}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0

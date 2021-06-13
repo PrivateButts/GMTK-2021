@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     public bool CanGrab, OverrideGrab = false;
-    public float SwingForce = 500f;
+    public float SwingForce, MaxAngularVelo = 500f;
     public string PlayerID;
     public GameObject OtherPlayer;
 
@@ -45,8 +45,6 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        
-
         if (!GrabJoint.enabled && rb.velocity.sqrMagnitude > 1 && OtherPlayer != null && OtherGrabJoint.enabled) {
             if (Input.GetAxis("Horizontal") < 0){
                 transform.right = (OtherPlayer.transform.position - transform.position) * -1;
@@ -56,6 +54,8 @@ public class PlayerController : MonoBehaviour {
                 SwingSprite.GetComponent<SpriteRenderer>().flipY = false;
             }
         }
+
+        rb.angularVelocity = Mathf.Clamp(rb.angularVelocity, -MaxAngularVelo, MaxAngularVelo);
     }
 
     void FixedUpdate () {
