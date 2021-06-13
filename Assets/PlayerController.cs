@@ -10,13 +10,19 @@ public class PlayerController : MonoBehaviour {
 
     private HingeJoint2D GrabJoint, OtherGrabJoint;
     private Rigidbody2D rb;
+    private GameObject GrabbedSprite, SwingSprite;
 
     private void Start () {
+        // Hinges
         GrabJoint = GetComponent<HingeJoint2D> ();
         GrabJoint.enabled = true;
         OtherGrabJoint = OtherPlayer.GetComponent<HingeJoint2D> ();
 
+        // Varb searching
         rb = GetComponent<Rigidbody2D> ();
+        GrabbedSprite = transform.Find("Grabbed").gameObject;
+        GrabbedSprite.SetActive(true);
+        SwingSprite = transform.Find("Swing").gameObject;
     }
 
     // Update is called once per frame
@@ -32,6 +38,8 @@ public class PlayerController : MonoBehaviour {
         }else{
             if (!OverrideGrab && !Input.GetButton ("Grab" + PlayerID) && Input.GetAxis("TriggerGrab" + PlayerID) <= .5f) {
                 GrabJoint.enabled = false;
+                GrabbedSprite.SetActive(false);
+                SwingSprite.SetActive(true);
             }else if (Input.GetButton ("Grab" + PlayerID) || Input.GetAxis("TriggerGrab" + PlayerID) > .5f){
                 OverrideGrab = false;
             }
@@ -40,13 +48,19 @@ public class PlayerController : MonoBehaviour {
         
 
         if (!GrabJoint.enabled && rb.velocity.sqrMagnitude > 1 && OtherPlayer != null && OtherGrabJoint.enabled) {
-            transform.right = OtherPlayer.transform.position - transform.position;
+            if (Input.GetAxis("Horizontal") < 0){
+                transform.right = (OtherPlayer.transform.position - transform.position) * -1;
+                SwingSprite.GetComponent<SpriteRenderer>().flipY = true;
+            } else if (Input.GetAxis("Horizontal") > 0){
+                transform.right = (OtherPlayer.transform.position - transform.position);
+                SwingSprite.GetComponent<SpriteRenderer>().flipY = false;
+            }
         }
     }
 
     void FixedUpdate () {
         if (!GrabJoint.enabled) {
-            rb.AddRelativeForce (Vector2.down * Input.GetAxis ("Horizontal") * SwingForce * Time.deltaTime);
+            rb.AddRelativeForce (Vector2.down * Mathf.Abs(Input.GetAxis ("Horizontal")) * SwingForce * Time.deltaTime);
             // rb.AddForce (Vector2.up * Input.GetAxis ("Vertical") * SwingForce * Time.deltaTime);
         }
     }
@@ -55,6 +69,8 @@ public class PlayerController : MonoBehaviour {
         Debug.Log ("Grabbed");
         GrabJoint.connectedAnchor = transform.position;
         GrabJoint.enabled = true;
+        GrabbedSprite.SetActive(true);
+        SwingSprite.SetActive(false);
     }
 
     void OnTriggerEnter2D (Collider2D other) {

@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
         // Invoke the rope
         int SegmentCount = Mathf.CeilToInt (Vector2.Distance (Player1.transform.position, Player2.transform.position) / DistPerSegment);
         CreateRope (Player1, Player2, SegmentCount);
-        AddDistanceJoint (Player1, Player2, SegmentCount * DistPerSegment);
+        AddDistanceJoint (Player1, Player2, SegmentCount * DistPerSegment + 0.5f);
     }
 
     void CreateRope (GameObject t1, GameObject t2, int segments) {
@@ -88,8 +88,8 @@ public class GameManager : MonoBehaviour {
                 end.connectedAnchor = Vector2.zero;
             } else {
                 end.connectedBody = rsegs[i - 1].GetComponent<Rigidbody2D> ();
-                AddDistanceJoint (rseg, t1, (i * DistPerSegment) + 0.1f);
-                AddDistanceJoint (rseg, t2, ((segments - i) * DistPerSegment) + 0.1f);
+                AddDistanceJoint (rseg, t1, (i * DistPerSegment) + 1f);
+                AddDistanceJoint (rseg, t2, ((segments - i) * DistPerSegment) + .5f);
             }
 
             if (i == segments - 1) {
