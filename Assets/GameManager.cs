@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public int LastCheckpointScore = 0;
     public int StartingLives;
     public float RespawnDelay = 3;
+    public float GHRespawnOffset = 20;
     public Text LivesDisplay, ScoreDisplay, DEDDisplay;
     public AudioSource BGNormal, BGPanic;
     public float CrossFadeStart, CrossFadeEnd;
@@ -127,7 +128,7 @@ public class GameManager : MonoBehaviour {
         Destroy (RopeHolder, RespawnDelay / 2);
         yield return new WaitForSeconds (RespawnDelay);
         SpawnPlayer ();
-        GlobalHazard.transform.position = LastCheckpointPos.position + (Vector3.down * 14);
+        GlobalHazard.transform.position = LastCheckpointPos.position + (Vector3.down * GHRespawnOffset);
         GlobalHazard.SendMessage ("Start");
         Score = LastCheckpointScore;
         TakeNoDamage = false;

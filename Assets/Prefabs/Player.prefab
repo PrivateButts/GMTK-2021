@@ -198,6 +198,9 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  PlayerColors:
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
 --- !u!233 &1769908010065393908
 HingeJoint2D:
   m_ObjectHideFlags: 0

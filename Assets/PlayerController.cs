@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
     public string PlayerID;
     public GameObject OtherPlayer;
     public ContactFilter2D GrabCheckFilter;
+    public Color[] PlayerColors;
 
     private HingeJoint2D GrabJoint, OtherGrabJoint;
     private Rigidbody2D rb;
@@ -23,7 +24,9 @@ public class PlayerController : MonoBehaviour {
         rb = GetComponent<Rigidbody2D> ();
         GrabbedSprite = transform.Find ("Grabbed").gameObject;
         GrabbedSprite.SetActive (true);
+        GrabbedSprite.GetComponent<SpriteRenderer> ().color = PlayerColors[int.Parse (PlayerID) - 1];
         SwingSprite = transform.Find ("Swing").gameObject;
+        SwingSprite.GetComponent<SpriteRenderer> ().color = PlayerColors[int.Parse (PlayerID) - 1];
     }
 
     // Update is called once per frame
