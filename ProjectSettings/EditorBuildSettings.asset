@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/menu.unity
+    guid: 97d78aab503ee034ca224aed6afa10b7
+  - enabled: 1
     path: Assets/Scenes/GMTK-2021.unity
     guid: ff814a6a900c2d940b73c396f43730d9
   m_configObjects: {}
