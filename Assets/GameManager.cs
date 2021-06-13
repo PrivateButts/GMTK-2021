@@ -44,9 +44,9 @@ public class GameManager : MonoBehaviour {
             }
 
             float distance = min_height - GlobalHazard.transform.position.y - (GlobalHazard.transform.localScale.y / 2) - CrossFadeStart;
-            Debug.Log (distance);
+            // Debug.Log (distance);
             float crossfade = Mathf.Clamp01 (distance / (CrossFadeEnd - CrossFadeStart));
-            Debug.Log (crossfade);
+            // Debug.Log (crossfade);
             BGNormal.volume = crossfade;
             BGPanic.volume = 1 - crossfade;
         }

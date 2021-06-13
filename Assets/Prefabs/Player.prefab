@@ -179,12 +179,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65bc0d3005e6b6c49ac8dc6b1053da5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanGrab: 0
   OverrideGrab: 0
   SwingForce: 400
   MaxAngularVelo: 200
   PlayerID: 1
   OtherPlayer: {fileID: 0}
+  GrabCheckFilter:
+    useTriggers: 1
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
 --- !u!233 &1769908010065393908
 HingeJoint2D:
   m_ObjectHideFlags: 0
