@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
     public Text LivesDisplay, ScoreDisplay, DeadScoreDisplay;
     public AudioSource BGNormal, BGPanic;
     public float CrossFadeStart, CrossFadeEnd;
+    public int MinRopeSegs, MaxRopeSegs;
     public int Score = 0;
 
     public GameObject[] DisableOnStart, EnableOnStart, DisableOnGameOver, EnableOnGameOver;
@@ -58,6 +59,14 @@ public class GameManager : MonoBehaviour {
             BGNormal.volume = crossfade;
             BGPanic.volume = 1 - crossfade;
         }
+
+        if (Input.GetButtonDown ("RetractRope")) {
+            RetractRope ();
+        }
+
+        if (Input.GetButtonDown ("ExtendRope")) {
+            ExtendRope ();
+        }
     }
 
     void SpawnPlayer () {
@@ -96,7 +105,7 @@ public class GameManager : MonoBehaviour {
                 end.connectedAnchor = Vector2.zero;
             } else {
                 end.connectedBody = rsegs[i - 1].GetComponent<Rigidbody2D> ();
-                AddDistanceJoint (rseg, t1, (i * DistPerSegment) + 1f);
+                AddDistanceJoint (rseg, t1, (i * DistPerSegment) + .5f);
                 AddDistanceJoint (rseg, t2, ((segments - i) * DistPerSegment) + .5f);
             }
 
@@ -110,6 +119,32 @@ public class GameManager : MonoBehaviour {
             }
 
             rsegs.Add (rseg);
+        }
+    }
+
+    void RetractRope () {
+        if (RopeHolder.transform.childCount > MinRopeSegs) {
+            GameObject RopeToRemove = RopeHolder.transform.GetChild (RopeHolder.transform.childCount - 1).gameObject;
+            GameObject NewEnd = RopeHolder.transform.GetChild (RopeHolder.transform.childCount - 2).gameObject;
+            RopeToRemove.GetComponent<HingeJoint2D> ().enabled = false;
+            HingeJoint2D NewHinge = NewEnd.AddComponent<HingeJoint2D> ();
+            NewHinge.enableCollision = false;
+            NewHinge.autoConfigureConnectedAnchor = false;
+            NewHinge.anchor = new Vector2 (0.1f, 0);
+            NewHinge.connectedAnchor = Vector2.zero;
+            NewHinge.connectedBody = Player2.GetComponent<Rigidbody2D> ();
+            Destroy (RopeToRemove);
+        }
+    }
+    void ExtendRope () {
+        if (RopeHolder.transform.childCount < MaxRopeSegs) {
+            RopeHolder.transform.position = Vector2.Lerp (Player2.transform.position, Player1.transform.position, 0.5f);
+            GameObject rseg = Instantiate (RopeSegment, RopeHolder.transform);
+            Rigidbody2D LastSeg = RopeHolder.transform.GetChild (RopeHolder.transform.childCount - 1).GetComponent<Rigidbody2D> ();
+            HingeJoint2D end = rseg.GetComponent<HingeJoint2D> ();
+            end.connectedBody = LastSeg;
+            AddDistanceJoint (rseg, Player2, (1 * DistPerSegment) + .5f);
+            AddDistanceJoint (rseg, Player1, ((RopeHolder.transform.childCount - 1) * DistPerSegment) + .5f);
         }
     }
 
