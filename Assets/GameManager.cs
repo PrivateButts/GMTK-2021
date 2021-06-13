@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
@@ -17,9 +18,9 @@ public class GameManager : MonoBehaviour {
     public Text LivesDisplay, ScoreDisplay, DEDDisplay;
     public AudioSource BGNormal, BGPanic;
     public float CrossFadeStart, CrossFadeEnd;
+    public int Score = 0;
 
     private int CurrentLives;
-    private int Score = 0;
     private float DistPerSegment = .2f;
     private GameObject Player1, Player2, RopeHolder, GlobalHazard;
     private bool TakeNoDamage = false;
@@ -150,5 +151,10 @@ public class GameManager : MonoBehaviour {
     void GameOver () {
         Debug.Log ("Ded");
         DEDDisplay.gameObject.SetActive (true);
+        Invoke ("ReloadScene", 10);
+    }
+
+    void ReloadScene () {
+        SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
     }
 }
