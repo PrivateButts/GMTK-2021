@@ -10866,6 +10866,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 137702253}
     - target: {fileID: 7023254010035063844, guid: 8f6d06134d8fa29489170a2ca1b1eb00, type: 3}
+      propertyPath: CrossFadeEnd
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7023254010035063844, guid: 8f6d06134d8fa29489170a2ca1b1eb00, type: 3}
       propertyPath: LivesDisplay
       value: 
       objectReference: {fileID: 151088030}
@@ -11348,7 +11352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3913840310812948869, guid: 232832a06eb651e41a3478e5d3515527, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11
+      value: -28.6
       objectReference: {fileID: 0}
     - target: {fileID: 3913840310812948869, guid: 232832a06eb651e41a3478e5d3515527, type: 3}
       propertyPath: m_LocalPosition.z
