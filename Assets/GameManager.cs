@@ -147,9 +147,10 @@ public class GameManager : MonoBehaviour {
     IEnumerator ExtendRope () {
         yield return new WaitForFixedUpdate ();
         if (RopeHolder.transform.childCount < MaxRopeSegs) {
-            RopeHolder.transform.position = Vector2.Lerp (Player2.transform.position, Player1.transform.position, 0.5f);
             GameObject NextSeg = RopeHolder.transform.GetChild (RopeHolder.transform.childCount - 1).gameObject;
             GameObject rseg = Instantiate (RopeSegment, RopeHolder.transform);
+            rseg.transform.position = NextSeg.transform.position;
+            rseg.transform.rotation = NextSeg.transform.rotation;
             NextSeg.gameObject.transform.SetAsLastSibling ();
             NextSeg.GetComponent<HingeJoint2D> ().connectedBody = rseg.GetComponent<Rigidbody2D> ();
             GameObject PreviousSeg = RopeHolder.transform.GetChild (RopeHolder.transform.childCount - 3).gameObject;
