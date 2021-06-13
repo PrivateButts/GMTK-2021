@@ -15,10 +15,12 @@ public class GameManager : MonoBehaviour {
     public int StartingLives;
     public float RespawnDelay = 3;
     public float GHRespawnOffset = 20;
-    public Text LivesDisplay, ScoreDisplay, DEDDisplay;
+    public Text LivesDisplay, ScoreDisplay, DeadScoreDisplay;
     public AudioSource BGNormal, BGPanic;
     public float CrossFadeStart, CrossFadeEnd;
     public int Score = 0;
+
+    public GameObject[] DisableOnStart, EnableOnStart, DisableOnGameOver, EnableOnGameOver;
 
     private int CurrentLives;
     private float DistPerSegment = .2f;
@@ -34,6 +36,10 @@ public class GameManager : MonoBehaviour {
         // UI Setup
         LivesDisplay.text = CurrentLives.ToString ();
         ScoreDisplay.text = Score.ToString ();
+
+        BulkSetActive (EnableOnStart, true);
+        BulkSetActive (DisableOnStart, false);
+
     }
 
     void Update () {
@@ -150,11 +156,20 @@ public class GameManager : MonoBehaviour {
 
     void GameOver () {
         Debug.Log ("Ded");
-        DEDDisplay.gameObject.SetActive (true);
+        BulkSetActive (EnableOnGameOver, true);
+        BulkSetActive (DisableOnGameOver, false);
+
+        DeadScoreDisplay.text = "Final Score: " + Score.ToString ();
         Invoke ("ReloadScene", 10);
     }
 
     void ReloadScene () {
         SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+    }
+
+    void BulkSetActive (GameObject[] go, bool status) {
+        for (int i = 0; i < go.Length; i++) {
+            go[i].SetActive (status);
+        }
     }
 }
