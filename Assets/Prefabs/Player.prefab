@@ -181,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanGrab: 0
   OverrideGrab: 0
-  SwingForce: 300
+  SwingForce: 400
   MaxAngularVelo: 200
   PlayerID: 1
   OtherPlayer: {fileID: 0}
