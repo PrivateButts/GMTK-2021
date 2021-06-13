@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour {
         Player2.GetComponent<PlayerController> ().PlayerID = "2";
         Player1.GetComponent<PlayerController> ().OtherPlayer = Player2;
         Player2.GetComponent<PlayerController> ().OtherPlayer = Player1;
+        Player1.GetComponent<PlayerController> ().OverrideGrab = true;
+        Player2.GetComponent<PlayerController> ().OverrideGrab = true;
         CameraTargets.AddMember (Player1.transform, CameraWeight, CameraRadius);
         CameraTargets.AddMember (Player2.transform, CameraWeight, CameraRadius);
 

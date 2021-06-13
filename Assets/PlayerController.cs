@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    public bool CanGrab = false;
+    public bool CanGrab, OverrideGrab = false;
     public float SwingForce = 500f;
     public string PlayerID;
     public GameObject OtherPlayer;
 
-    private HingeJoint2D GrabJoint;
+    private HingeJoint2D GrabJoint, OtherGrabJoint;
     private Rigidbody2D rb;
 
     private void Start () {
         GrabJoint = GetComponent<HingeJoint2D> ();
         GrabJoint.enabled = true;
+        OtherGrabJoint = OtherPlayer.GetComponent<HingeJoint2D> ();
 
         rb = GetComponent<Rigidbody2D> ();
     }
@@ -21,18 +22,24 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         // Grab Input Code
-        if (Input.GetButtonDown ("Grab" + PlayerID)) {
-            Debug.Log ("Attempted Grab");
-            if (CanGrab && !GrabJoint.enabled) {
-                Grab ();
+        if(!GrabJoint.enabled){
+            if (Input.GetButton ("Grab" + PlayerID) || Input.GetAxis("TriggerGrab" + PlayerID) > .5f) {
+                Debug.Log ("Attempted Grab");
+                if (CanGrab) {
+                    Grab ();
+                }
+            }
+        }else{
+            if (!OverrideGrab && !Input.GetButton ("Grab" + PlayerID) && Input.GetAxis("TriggerGrab" + PlayerID) <= .5f) {
+                GrabJoint.enabled = false;
+            }else if (Input.GetButton ("Grab" + PlayerID) || Input.GetAxis("TriggerGrab" + PlayerID) > .5f){
+                OverrideGrab = false;
             }
         }
 
-        if (Input.GetButtonUp ("Grab" + PlayerID)) {
-            GrabJoint.enabled = false;
-        }
+        
 
-        if (!GrabJoint.enabled && rb.velocity.sqrMagnitude > 1 && OtherPlayer != null) {
+        if (!GrabJoint.enabled && rb.velocity.sqrMagnitude > 1 && OtherPlayer != null && OtherGrabJoint.enabled) {
             transform.right = OtherPlayer.transform.position - transform.position;
         }
     }
